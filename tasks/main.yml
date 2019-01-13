@@ -15,6 +15,7 @@
     name: docker-ce
     description: Docker CE repo
     baseurl: https://download.docker.com/linux/centos/docker-ce.repo
+    gpgcheck: no
     enabled: no
   become: True
 - name: Ensure docker is installed
