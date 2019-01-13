@@ -1,0 +1,27 @@
+---
+# tasks file for ansible-role-portainer
+- name: Ensure all packages are installed
+  yum: 
+     name: '{{ item }}'
+     state: present
+  become: True
+  with_items:
+  - yum-utils
+  - device-mapper-persistent-data
+  - lvm2
+- name: Add repository
+  yum_repository:
+    name: docker-ce
+    description: Docker CE repo
+    baseurl: https://download.docker.com/linux/centos/docker-ce.repo
+- name: Ensure docker-ce is installed
+  yum: 
+     name: 'docker-ce'
+     state: present
+  become: True
+- name: Ensure docker-ce is enabled
+  service:
+    name: 'docker-ce'
+    state: started
+    enabled: True
+  become: True
