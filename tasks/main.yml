@@ -9,20 +9,48 @@
   - yum-utils
   - device-mapper-persistent-data
   - lvm2
+  - python-docker-py
 - name: Add repository
   yum_repository:
     name: docker-ce
     description: Docker CE repo
     baseurl: https://download.docker.com/linux/centos/docker-ce.repo
+    enabled: no
   become: True
-- name: Ensure docker-ce is installed
+- name: Ensure docker is installed
   yum: 
      name: 'docker-ce'
      state: present
+     enablerepo: docker-ce
   become: True
-- name: Ensure docker-ce is enabled
+- name: Ensure docker is enabled
   service:
     name: 'docker'
     state: started
     enabled: True
   become: True
+
+- name: Create a data volume
+  docker_volume:
+    name: portainer_data
+  become: True
+- name: Create Portainer container
+  docker_container:
+    name: portainer
+    image: portainer/portainer
+    state: started
+    restart_policy: always
+    volumes:
+     - "/var/run/docker.sock:/var/run/docker.sock"
+     - "portainer_data:/data portainer/portainer"
+    ports:
+     - "9000:9000"
+  become: True
+- name: Ensure firewalld accepts connections to '{{ grafana_http_port }}/tcp'
+  firewalld:
+     port: "9000/tcp"
+     state: enabled
+     permanent: true
+     immediate: true
+  become: true
+  notify: Restart firewalld
