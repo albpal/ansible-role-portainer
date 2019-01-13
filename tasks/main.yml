@@ -22,7 +22,7 @@
   become: True
 - name: Ensure docker-ce is enabled
   service:
-    name: 'docker-ce'
+    name: 'docker'
     state: started
     enabled: True
   become: True
