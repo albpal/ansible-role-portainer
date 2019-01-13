@@ -14,6 +14,7 @@
     name: docker-ce
     description: Docker CE repo
     baseurl: https://download.docker.com/linux/centos/docker-ce.repo
+  become: True
 - name: Ensure docker-ce is installed
   yum: 
      name: 'docker-ce'
