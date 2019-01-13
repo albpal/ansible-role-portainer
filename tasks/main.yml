@@ -16,13 +16,11 @@
     description: Docker CE repo
     baseurl: https://download.docker.com/linux/centos/docker-ce.repo
     gpgcheck: no
-    enabled: no
   become: True
 - name: Ensure docker is installed
   yum: 
      name: 'docker-ce'
      state: present
-     enablerepo: docker-ce
      disable_gpg_check: yes
   become: True
 - name: Ensure docker is enabled
