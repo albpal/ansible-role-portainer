@@ -22,6 +22,7 @@
      name: 'docker-ce'
      state: present
      enablerepo: docker-ce
+     disable_gpg_check: yes
   become: True
 - name: Ensure docker is enabled
   service:
