@@ -12,7 +12,7 @@
   - python-docker-py
 - name: Add repository
   yum_repository:
-    name: docker-ce
+    name: docker-ce-stable
     description: Docker CE repo
     baseurl: https://download.docker.com/linux/centos/docker-ce.repo
     gpgcheck: no
@@ -23,7 +23,7 @@
      name: 'docker-ce'
      state: present
      disable_gpg_check: yes
-     enablerepo: docker-ce
+     enablerepo: docker-ce-stable
   become: True
 - name: Ensure docker is enabled
   service:
